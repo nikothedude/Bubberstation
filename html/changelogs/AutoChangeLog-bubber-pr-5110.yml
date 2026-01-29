@@ -1,0 +1,4 @@
+author: "MintyPhresh"
+delete-after: True
+changes:
+  - rscadd: "MOD hypnosis module is now configurable via the MOD UI... including remote control."
