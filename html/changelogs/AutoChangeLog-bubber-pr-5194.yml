@@ -1,5 +1,0 @@
-author: "Fghj240"
-delete-after: True
-changes:
-  - rscadd: "Added short treatment text to robotic limb wounds"
-  - bugfix: "robotic burn wounds no longer show their heat threshold if it's null, 0, or infinity"
