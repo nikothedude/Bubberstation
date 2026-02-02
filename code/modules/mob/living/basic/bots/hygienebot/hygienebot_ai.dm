@@ -83,8 +83,7 @@
 
 
 		// BUBBER EDIT ADDITION BEGIN - Dirty quirk
-		var/datum/quirk/dirty/dirty_quirk = locate(/datum/quirk/dirty) in wash_potential.quirks
-		if (!isnull(dirty_quirk) && !dirty_quirk.cleaned)
+		if (HAS_TRAIT(wash_potential, TRAIT_DIRTY))
 			found_target = wash_potential
 			break
 		// BUGGER EDIT ADDITION END

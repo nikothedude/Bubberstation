@@ -6,6 +6,7 @@
 	desc = "You haven't taken a shower in a loooong time, and as a result, you are caked in an everpresent layer of grime and track it everywhere."
 	icon = FA_ICON_TRASH_ALT
 	value = -2
+	mob_trait = TRAIT_DIRTY
 	quirk_flags = QUIRK_PROCESSES
 	gain_text = span_danger("You feel dirty!")
 	lose_text = span_notice("You're finally clean...")
@@ -193,18 +194,21 @@
 	set_cleaned(TRUE)
 
 /datum/quirk/dirty/proc/set_cleaned(new_cleaned)
+
 	if (cleaned && !new_cleaned)
 		quirk_holder.visible_message(
 			span_warning("[quirk_holder] is once again covered in filth, [quirk_holder.p_their()] hygiene forever accursed."),
 			span_notice("Your find yourself lathered in filth once again. A sense of relief washes over you.")
 		)
 		quirk_holder.clear_mood_event("dirty_quirk_washed")
+		ADD_TRAIT(quirk_holder, TRAIT_DIRTY, QUIRK_TRAIT)
 	else if (!cleaned && new_cleaned)
 		quirk_holder.visible_message(
 			span_warning("[quirk_holder] squirms and writhes, fighting against the cleansing!"),
 			span_userdanger("No! NO! Your filth! It's gone!")
 		)
 		quirk_holder.add_mood_event("dirty_quirk_washed", /datum/mood_event/dirty_washed)
+		REMOVE_TRAIT(quirk_holder, TRAIT_DIRTY, QUIRK_TRAIT)
 
 	cleaned = new_cleaned
 
