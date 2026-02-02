@@ -66,8 +66,8 @@
 /datum/quirk/dirty/process(seconds_per_tick)
 	if (cleaned)
 		return
-	for (var/mob/living/iter_mob in viewers(4, quirk_holder))
-		if (iter_mob.has_quirk(/datum/quirk/dirty))
+	for (var/mob/living/iter_mob in get_hearers_in_view(4, quirk_holder))
+		if (iter_mob.has_quirk(/datum/quirk/dirty) || HAS_TRAIT(iter_mob, TRAIT_ANOSMIA))
 			continue
 		iter_mob.add_mood_event("dirty_smell", /datum/mood_event/dirty_smell)
 
