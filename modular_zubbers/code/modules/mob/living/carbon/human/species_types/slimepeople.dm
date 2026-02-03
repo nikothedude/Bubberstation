@@ -588,15 +588,18 @@
 		FALSE
 	)
 	var/client/target_client
+	var/mob/target_mob
 	switch (mode)
 		if ("Yours")
 			target_client = alterer.client
+			target_mob = alterer
 		if ("Theirs")
 			target_client = target.client
+			target_mob = target
 		if ("Cancel")
 			return
 
-	if (isnull(target_client))
+	if (isnull(target_client) || isnull(target_mob))
 		alterer.balloon_alert(alterer, "invalid selection!")
 		return
 
@@ -604,9 +607,10 @@
 	if (isnull(prefdata_names))
 		return
 
+	var/target_char_tgui_title = ((mode == "Theirs") ? "[alterer] wants to transform you... which character?" : "Which character?")
 	var/target_char_name = tgui_input_list(
-		alterer,
-		"Which character?",
+		target_mob,
+		target_char_tgui_title,
 		"Character",
 		prefdata_names,
 		timeout = 5 SECONDS
