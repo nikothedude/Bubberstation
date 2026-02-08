@@ -661,12 +661,35 @@
 	)
 	var/original_name = target.dna.real_name
 
+	// Once added this status effect never goes away, and always remembers the !first! original name
+	target.apply_status_effect(/datum/status_effect/shapeshift_transformed, original_name)
 	char_source.safe_transfer_prefs_to_with_damage(target)
 	target.dna.update_dna_identity()
 
-	var/output = "[key_name(target)] has been transformed by [key_name(alterer)] using polymorph, at [loc_name(src)]. Original Name: [original_name], New Name: [target.dna.real_name]."
+	var/output = "[key_name(target)] has been transformed by [key_name(alterer)] using polymorph, at [loc_name(target)]. Original Name: [original_name], New Name: [target.dna.real_name]."
 	message_admins(output)
 	log_game(output)
+
+/datum/status_effect/shapeshift_transformed
+	id = "shapeshift_transformed"
+	alert_type = null
+	var/orig_name
+
+/datum/status_effect/shapeshift_transformed/on_creation(mob/living/new_owner, orig_name)
+	. = ..()
+	if (!.)
+		return
+
+	src.orig_name = orig_name
+
+/datum/status_effect/shapeshift_transformed/get_examine_text()
+	var/mob/living/carbon/human/human_owner = owner
+	if (!istype(owner))
+		return
+	var/curr_name = human_owner.dna.real_name
+	if (curr_name == orig_name)
+		return
+	return span_warning("This character has been transformed via Shapeshift, originally being [orig_name].")
 
 /**
  * Validates if the target can be transformed.
